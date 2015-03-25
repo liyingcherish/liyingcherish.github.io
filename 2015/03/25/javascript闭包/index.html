@@ -4,40 +4,28 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>javascript继承 | liying</title>
+    <title>javascript闭包 | liying</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="liying">
     
 
     
-    <meta name="description" content="大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？
-在实现之前，先来看一道js面试题：
-
-有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.
-
-试通过继承来达到目的。通过“原型”实现继承
-1.定义一个狗的父类，有“叫”方法123function Dog()&amp;#123;    this.bark=func">
+    <meta name="description" content="一、什么是闭包？js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。
+好了，先看下面的一段代码：
+12345678910function t1()&amp;#123;       var age = 20;        function t2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javascript继承">
-<meta property="og:url" content="http://hiliying.com/2015/03/25/javascript继承/index.html">
+<meta property="og:title" content="javascript闭包">
+<meta property="og:url" content="http://hiliying.com/2015/03/25/javascript闭包/index.html">
 <meta property="og:site_name" content="liying">
-<meta property="og:description" content="大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？
-在实现之前，先来看一道js面试题：
-
-有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.
-
-试通过继承来达到目的。通过“原型”实现继承
-1.定义一个狗的父类，有“叫”方法123function Dog()&amp;#123;    this.bark=func">
+<meta property="og:description" content="一、什么是闭包？js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。
+好了，先看下面的一段代码：
+12345678910function t1()&amp;#123;       var age = 20;        function t2">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript继承">
-<meta name="twitter:description" content="大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？
-在实现之前，先来看一道js面试题：
-
-有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.
-
-试通过继承来达到目的。通过“原型”实现继承
-1.定义一个狗的父类，有“叫”方法123function Dog()&amp;#123;    this.bark=func">
+<meta name="twitter:title" content="javascript闭包">
+<meta name="twitter:description" content="一、什么是闭包？js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。
+好了，先看下面的一段代码：
+12345678910function t1()&amp;#123;       var age = 20;        function t2">
 
     
     <link rel="alternative" href="/atom.xml" title="liying" type="application/atom+xml">
@@ -96,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/03/25/javascript继承/" title="javascript继承" itemprop="url">javascript继承</a>
+      <a href="/2015/03/25/javascript闭包/" title="javascript闭包" itemprop="url">javascript闭包</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://hiliying.com/about" title="liying" target="_blank" itemprop="author">liying</a>
 		
   <p class="article-time">
-    <time datetime="2015-03-25T02:53:50.000Z" itemprop="datePublished"> 發表於 2015-03-25</time>
+    <time datetime="2015-03-25T03:25:06.000Z" itemprop="datePublished"> 發表於 2015-03-25</time>
     
   </p>
 </header>
@@ -112,27 +100,23 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是闭包？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是闭包？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、闭包的应用"><span class="toc-number">2.</span> <span class="toc-text">二、闭包的应用</span></a></li></ol>
 		
 		</div>
 		
-		<p>大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？</p>
-<p>在实现之前，先来看一道js面试题：</p>
-<blockquote>
-<p>有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.</p>
-</blockquote>
-<p>试通过继承来达到目的。<br><em>通过“原型”实现继承</em></p>
-<p>1.定义一个狗的父类，有“叫”方法<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.bark=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;alert(<span class="string">'汪汪'</span>);&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.定义一个“猎狗”的子类<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HuntingDog</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.limb=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;alert(<span class="string">'我会爬树'</span>);&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.让“猎狗”也会“叫”<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HuntingDog.prototype=<span class="keyword">new</span> Dog(); <span class="comment">//通过关键字‘prototype’开始继承</span></span><br></pre></td></tr></table></figure></p>
-<p>4.测试<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> huntingDog=<span class="keyword">new</span> HuntingDog();</span><br><span class="line">huntingDog.bark();<span class="comment">//猎狗也会叫，调用Dog的函数</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>到此，已经实现子类“猎狗”继承父类“狗”，这种继承方式是通过关键字“prototype”来实现的，指定“猎狗”的原型是“狗”，这样“猎狗”就具有了“狗”的全部属性。其实在JavaScript中，每个对象都有一个原型对象，直至顶层的Object对象，当然Object对象的原型值为null。</p>
-<p>那么，“猎狗”对象huntingDog是如何找到bark()方法的呢？</p>
-<p>猎狗huntingDog首先在自身对象上寻找bark()方法，寻找不到，去原型寻找，原型Dog对象上，有bark方法，调用bark方法。</p>
-<p>其实这里也就涉及到了JavaScript高级中一个重要的概念——原型链</p>
-<p>对象 -&gt; 原型 -&gt; 原型的原型 -&gt; Object -&gt; null ,这样的一条链，称为原型链<br>对象的属性和方法，就是沿着原型链来查找和调用的，也就是js的原型继承</p>
-<p>通过原型关键字”prototype“实现js继承是最常用的方法，但是原型继承时，发生的改变会影响下游的所有子类</p>
+		<h2 id="一、什么是闭包？">一、什么是闭包？</h2><p>js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。</p>
+<p>好了，先看下面的一段代码：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span><span class="params">()</span></span>&#123;  </span><br><span class="line">     <span class="keyword">var</span> age = <span class="number">20</span>;  </span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">t2</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         alert(age);  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="keyword">return</span> t2;  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">var</span> age = <span class="number">100</span>;  </span><br><span class="line"> <span class="keyword">var</span> temp = t1();  </span><br><span class="line"> temp();<span class="comment">//20</span></span><br></pre></td></tr></table></figure>
+<p>为了突出 执行效果，在t1函数外层也定义了一个age=100的变量，执行完 var temp = t1(); 后，将函数t2赋予了temp,这样temp其实就是t2函数的引用，紧接着执行temp,输出结果竟然是20，毫无疑问，变量age是在t1函数的作用域下的，你已经看到JavaScript语言与其他语言不同的地方。</p>
+<p>在大部分语言中，如java，函数t1内的局部变量会随着函数t1执行结束而销毁，但是在js中，变量age=20却被t2捕抓，即使是t1函数执行结束后，依然可以通过t2访问到age这种情况，即返回的t2函数不是孤立的，甚至把周围的变量环境，形成了一个‘封闭包’，一起返回，所以叫‘闭包’</p>
+<h2 id="二、闭包的应用">二、闭包的应用</h2><p>JavaScript既然有闭包的实现，那么JavaScript的闭包是怎么使用的或应用在哪种情况下呢？通过上面的例子已经看到，函数t1内部的age变量只能通过返回的t2函数访问，那么age是不是相当于java的private私有变量呢，哈哈，这个在下一篇会讲到，而且将通过“闭包”将属性封装在内部，做成接口，别人也就看不见，也不会污染到其他的变量，想想是不是呢。</p>
+<p>讲那么多，我们就通过一个实际的例子看看：</p>
+<p>要求：实现一个计数器，每次调用某函数，使计时器的值加1</p>
+<p>1、闭包实现</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span><span class="params">()</span></span>&#123;  </span><br><span class="line">     <span class="keyword">var</span> i = <span class="number">0</span>;<span class="comment">//但counter执行完毕后，除了返回的inc函数，其他函数访问不了变量i  </span></span><br><span class="line">     <span class="keyword">var</span> inc = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         <span class="keyword">return</span> ++i;  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="keyword">return</span> inc;  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">var</span> c = counter();  </span><br><span class="line"> alert(c());  </span><br><span class="line"> alert(c());  </span><br><span class="line"> alert(c());</span><br></pre></td></tr></table></figure>
+<p>2、可以结合“匿名”函数，进行简化</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = (<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">     <span class="keyword">var</span> i = <span class="number">0</span>;  </span><br><span class="line">     <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         <span class="keyword">return</span> ++i;  </span><br><span class="line">     &#125;  </span><br><span class="line"> &#125;)();  </span><br><span class="line"> alert(counter());  </span><br><span class="line"> alert(counter());  </span><br><span class="line"> alert(counter());</span><br></pre></td></tr></table></figure>
+<p>相信你已经看到了闭包的好处，但是请不到胡乱使用闭包，因为在IE浏览器下是使用“计数”的方式跟踪对象来进行垃圾回收的，由于闭包的特新，不会释放局部变量，如果造成过多的循环引用，将会引起“内存泄露”。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -155,7 +139,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://hiliying.com/2015/03/25/javascript继承/" data-title="javascript继承 | liying" data-tsina="null" class="share clearfix">
+	  <div data-url="http://hiliying.com/2015/03/25/javascript闭包/" data-title="javascript闭包 | liying" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -168,19 +152,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/03/25/javascript闭包/" title="javascript闭包">
-  <strong>上一篇：</strong><br/>
-  <span>
-  javascript闭包</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/03/25/IE调试模式下显示正确/"  title="IE下开调试模式才显示正常是什么原因？">
+<a href="/2015/03/25/javascript继承/"  title="javascript继承">
  <strong>下一篇：</strong><br/> 
- <span>IE下开调试模式才显示正常是什么原因？
+ <span>javascript继承
 </span>
 </a>
 </div>
@@ -189,7 +165,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/03/25/javascript继承/" data-title="javascript继承" data-url="http://hiliying.com/2015/03/25/javascript继承/"></div>
+	<div class="ds-thread" data-thread-key="2015/03/25/javascript闭包/" data-title="javascript闭包" data-url="http://hiliying.com/2015/03/25/javascript闭包/"></div>
 </section>
 
 
@@ -199,7 +175,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是闭包？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是闭包？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、闭包的应用"><span class="toc-number">2.</span> <span class="toc-text">二、闭包的应用</span></a></li></ol>
  
   </div>
 
