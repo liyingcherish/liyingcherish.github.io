@@ -1,0 +1,481 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>javascript闭包 | liying</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="liying">
+    
+
+    
+    <meta name="description" content="遇到一个笔试题，看下面一段代码：
+123456789101112131415var v=&quot;Hello World&quot;;(function()&amp;#123;   console.log(v);   var v=&apos;I love you&apos;;   bar();   foo();   function bar()&amp;#123;console.log(&quot;this is bar&quot;);&amp;#125;var foo = f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript闭包">
+<meta property="og:url" content="http://hiliying.com/2015/03/28/JavaScript变量作用域/index.html">
+<meta property="og:site_name" content="liying">
+<meta property="og:description" content="遇到一个笔试题，看下面一段代码：
+123456789101112131415var v=&quot;Hello World&quot;;(function()&amp;#123;   console.log(v);   var v=&apos;I love you&apos;;   bar();   foo();   function bar()&amp;#123;console.log(&quot;this is bar&quot;);&amp;#125;var foo = f">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript闭包">
+<meta name="twitter:description" content="遇到一个笔试题，看下面一段代码：
+123456789101112131415var v=&quot;Hello World&quot;;(function()&amp;#123;   console.log(v);   var v=&apos;I love you&apos;;   bar();   foo();   function bar()&amp;#123;console.log(&quot;this is bar&quot;);&amp;#125;var foo = f">
+
+    
+    <link rel="alternative" href="/atom.xml" title="liying" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/bitbug_favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/liyinglogo.png" alt="liying" title="liying"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="liying">liying</a></h1>
+				<h2 class="blog-motto">运气是机会恰好撞上了你的努力</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:hiliying.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/03/28/JavaScript变量作用域/" title="javascript闭包" itemprop="url">javascript闭包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://hiliying.com/about" title="liying" target="_blank" itemprop="author">liying</a>
+		
+  <p class="article-time">
+    <time datetime="2015-03-28T09:28:21.251Z" itemprop="datePublished"> 發表於 2015-03-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目錄</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-javascript的作用域链"><span class="toc-number">1.</span> <span class="toc-text">1.javascript的作用域链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-局部变量优先级高于全局变量"><span class="toc-number">2.</span> <span class="toc-text">2.局部变量优先级高于全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-在函数内部使用var_声明的变量，不论在何处声明，该变量都用用整个函数的作用域"><span class="toc-number">3.</span> <span class="toc-text">3.在函数内部使用var 声明的变量，不论在何处声明，该变量都用用整个函数的作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-javascript没有块级作用域"><span class="toc-number">4.</span> <span class="toc-text">4.javascript没有块级作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-没有使用var声明的变量属于全局变量"><span class="toc-number">5.</span> <span class="toc-text">5.没有使用var声明的变量属于全局变量</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>遇到一个笔试题，看下面一段代码：
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> v=<span class="string">"Hello World"</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(v);</span><br><span class="line">   <span class="keyword">var</span> v=<span class="string">'I love you'</span>;</span><br><span class="line">   bar();</span><br><span class="line">   foo();</span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"this is bar"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"this is foo"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>问其运行结果。</p>
+<p>在w3school在线测试完结果如下图所示：<br>不会上传图片啊</p>
+<p>为什么会出现这样的结果？且听我慢慢述来。。。</p>
+<hr>
+<p>我们应该首先明白javascript有关变量作用域以下几点：</p>
+<blockquote>
+<ul>
+<li>javascript的变量作用域是基于其特有的作用域链的</li>
+<li>javaScript没有块级作用域</li>
+<li>函数中声明的变量在整个函数中都有定义</li>
+<li>所有在最外层定义（非函数体内定义）的变量都拥有全局作用域</li>
+<li>所有未定义直接赋值的变量，系统会自动声明为拥有全局作用域的变量</li>
+<li>所有window对象的属性拥有全局作用域</li>
+</ul>
+</blockquote>
+<p>详述：</p>
+<h2 id="1-javascript的作用域链">1.javascript的作用域链</h2><p>首先看一个简单的代码，定义一个全局变量v，v的作用域是全局的。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"JavaScript"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> v=<span class="string">"Hello World"</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(v);<span class="comment">//显示结果为Hello World</span></span><br><span class="line">&#125;)()</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>原理</strong>:是javaScript作用域是蹭蹭包含的，外层的作用域在内层有效，执行的时候<strong>从内层向外层查找</strong>。首先在函数内部查找变量v，没有找到在向外层查找，找到了全局变量v，显示Hello World。</p>
+<h2 id="2-局部变量优先级高于全局变量">2.局部变量优先级高于全局变量</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"JavaScript"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> v=<span class="string">"Hello World"</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">var</span> v=<span class="string">"I love you"</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(v);<span class="comment">//显示结果为I love you</span></span><br><span class="line">&#125;)()</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>原理</strong>：根据上面变量作用域的原理，函数执行时，会先从内层向外层查找，如果在内层中找到变量，查找就会停止。所以<strong>内层的作用域会优先于外层</strong>，<strong>局部优先于全局</strong>。</p>
+<p>再做一下改动：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"JavaScript"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> v=<span class="string">"Hello World"</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">var</span> v=<span class="string">"I love you"</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="built_in">window</span>.v);<span class="comment">//显示结果为Hello World</span></span><br><span class="line">&#125;)()</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>为什么是Hello World而不是I love you呢？</p>
+<p><strong>原理</strong>：任何的全局变量都是window对象的属性，都可以用window.<em>来引用。（</em>代表一个变量）。</p>
+<h2 id="3-在函数内部使用var_声明的变量，不论在何处声明，该变量都用用整个函数的作用域">3.在函数内部使用var 声明的变量，<strong>不论在何处声明，该变量都用用整个函数的作用域</strong></h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"JavaScript"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> v=<span class="string">"Hello World"</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="built_in">console</span>.log(v);<span class="comment">//undefined</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="keyword">this</span>.v);<span class="comment">//Hello World</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="built_in">window</span>.v)<span class="comment">//Hello World</span></span><br><span class="line">   <span class="keyword">var</span> v=<span class="string">"I love you"</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(v);<span class="comment">//I love you</span></span><br><span class="line">&#125;)()</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>第一个为什么会显示undefined呢？<br><strong>原理</strong>：在函数后面声明了布局变量v=”I love you”，在函数执行的时候，会先从内层查找到变量v,结果找到了，在第一个console.log的时候，v还没有赋值，所以结果是undefined。</p>
+<h2 id="4-javascript没有块级作用域">4.javascript没有块级作用域</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"JavaScript"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="keyword">var</span> v=<span class="string">"Hello World"</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">var</span> v=<span class="string">"I love you"</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(i);<span class="comment">//显示结果为0,1,2</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"for循环外："</span>+i);<span class="comment">//"for循环外：3"</span></span><br><span class="line">  <span class="built_in">console</span>.log(v);<span class="comment">//显示结果为I love you</span></span><br><span class="line">&#125;)()</span><br><span class="line"><span class="built_in">console</span>.log(i);<span class="comment">// 外部引用一个未声明变量会提示出错i is not defined</span></span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>原理</strong>：变量i虽然是在for循环内定义的，但是for循环外部仍然可以引用，i的作用域是整个函数。如果在函数外部引用变量i，会出现javascript报错。</p>
+<h2 id="5-没有使用var声明的变量属于全局变量">5.没有使用var声明的变量属于全局变量</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"JavaScript"</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line"> v=<span class="string">"Hello Word"</span>;<span class="comment">//没有使用var声明的变量v</span></span><br><span class="line"> <span class="keyword">var</span> s=<span class="string">"I love you"</span>;</span><br><span class="line">&#125;)()</span><br><span class="line"><span class="built_in">console</span>.log(v);<span class="comment">//显示Hello World</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.v);<span class="comment">//显示Hello World</span></span><br><span class="line"><span class="built_in">console</span>.log(s);<span class="comment">//报错：s is not defined</span></span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>原理</strong>：执行的过程中，引用了变量v，但未使用var声明，v就变成了全局变量。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/笔试题/">笔试题</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/javascript-作用域/">javascript 作用域</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://hiliying.com/2015/03/28/JavaScript变量作用域/" data-title="javascript闭包 | liying" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/03/25/javascript闭包/"  title="javascript闭包">
+ <strong>下一篇：</strong><br/> 
+ <span>javascript闭包
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/03/28/JavaScript变量作用域/" data-title="javascript闭包" data-url="http://hiliying.com/2015/03/28/JavaScript变量作用域/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-javascript的作用域链"><span class="toc-number">1.</span> <span class="toc-text">1.javascript的作用域链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-局部变量优先级高于全局变量"><span class="toc-number">2.</span> <span class="toc-text">2.局部变量优先级高于全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-在函数内部使用var_声明的变量，不论在何处声明，该变量都用用整个函数的作用域"><span class="toc-number">3.</span> <span class="toc-text">3.在函数内部使用var 声明的变量，不论在何处声明，该变量都用用整个函数的作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-javascript没有块级作用域"><span class="toc-number">4.</span> <span class="toc-text">4.javascript没有块级作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-没有使用var声明的变量属于全局变量"><span class="toc-number">5.</span> <span class="toc-text">5.没有使用var声明的变量属于全局变量</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/其他/" title="其他">其他<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端/" title="前端">前端<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/笔试题/" title="笔试题">笔试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自我介绍/" title="自我介绍">自我介绍<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-作用域/" title="javascript 作用域">javascript 作用域<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m liying in BUPT. <br/>
+			This is my blog,welcome.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/liyingcherish## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		<a href="https://www.facebook.com/liyingcherish## e.g. imjark for https://facebook.com/imjark" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="http://hiliying.com/about" target="_blank" title="liying">liying</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+    
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lying"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
