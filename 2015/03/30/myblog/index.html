@@ -4,40 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>javascript继承 | liying</title>
+    <title>myblog | liying</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="liying">
     
 
     
-    <meta name="description" content="大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？
-在实现之前，先来看一道js面试题：
-
-有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.
-
-试通过继承来达到目的。通过“原型”实现继承
-1.定义一个狗的父类，有“叫”方法123function Dog()&amp;#123;    this.bark=func">
+    <meta name="description" content="my blogwelcome to liying’s blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javascript继承">
-<meta property="og:url" content="http://hiliying.com/2015/03/25/javascript继承/index.html">
+<meta property="og:title" content="myblog">
+<meta property="og:url" content="http://hiliying.com/2015/03/30/myblog/index.html">
 <meta property="og:site_name" content="liying">
-<meta property="og:description" content="大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？
-在实现之前，先来看一道js面试题：
-
-有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.
-
-试通过继承来达到目的。通过“原型”实现继承
-1.定义一个狗的父类，有“叫”方法123function Dog()&amp;#123;    this.bark=func">
+<meta property="og:description" content="my blogwelcome to liying’s blog">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript继承">
-<meta name="twitter:description" content="大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？
-在实现之前，先来看一道js面试题：
-
-有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.
-
-试通过继承来达到目的。通过“原型”实现继承
-1.定义一个狗的父类，有“叫”方法123function Dog()&amp;#123;    this.bark=func">
+<meta name="twitter:title" content="myblog">
+<meta name="twitter:description" content="my blogwelcome to liying’s blog">
 
     
     <link rel="alternative" href="/atom.xml" title="liying" type="application/atom+xml">
@@ -96,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/03/25/javascript继承/" title="javascript继承" itemprop="url">javascript继承</a>
+      <a href="/2015/03/30/myblog/" title="myblog" itemprop="url">myblog</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://hiliying.com/about" title="liying" target="_blank" itemprop="author">liying</a>
 		
   <p class="article-time">
-    <time datetime="2015-03-25T02:53:50.000Z" itemprop="datePublished"> 發表於 2015-03-25</time>
+    <time datetime="2015-03-30T12:53:13.000Z" itemprop="datePublished"> 發表於 2015-03-30</time>
     
   </p>
 </header>
@@ -112,27 +94,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#my_blog"><span class="toc-number">1.</span> <span class="toc-text">my blog</span></a></li></ol>
 		
 		</div>
 		
-		<p>大家都知道JavaScript中没有类的概念，那么怎么实现继承呢？</p>
-<p>在实现之前，先来看一道js面试题：</p>
-<blockquote>
-<p>有一只小狗，叫“花花”，它会‘汪汪’叫，它的同伴也会‘汪汪’叫，后来环境发生变化，新出生的狗狗不会‘汪汪’叫了，而是变成‘呜呜’.</p>
-</blockquote>
-<p>试通过继承来达到目的。<br><em>通过“原型”实现继承</em></p>
-<p>1.定义一个狗的父类，有“叫”方法<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.bark=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;alert(<span class="string">'汪汪'</span>);&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.定义一个“猎狗”的子类<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HuntingDog</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.limb=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;alert(<span class="string">'我会爬树'</span>);&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.让“猎狗”也会“叫”<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HuntingDog.prototype=<span class="keyword">new</span> Dog(); <span class="comment">//通过关键字‘prototype’开始继承</span></span><br></pre></td></tr></table></figure></p>
-<p>4.测试<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> huntingDog=<span class="keyword">new</span> HuntingDog();</span><br><span class="line">huntingDog.bark();<span class="comment">//猎狗也会叫，调用Dog的函数</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>到此，已经实现子类“猎狗”继承父类“狗”，这种继承方式是通过关键字“prototype”来实现的，指定“猎狗”的原型是“狗”，这样“猎狗”就具有了“狗”的全部属性。其实在JavaScript中，每个对象都有一个原型对象，直至顶层的Object对象，当然Object对象的原型值为null。</p>
-<p>那么，“猎狗”对象huntingDog是如何找到bark()方法的呢？</p>
-<p>猎狗huntingDog首先在自身对象上寻找bark()方法，寻找不到，去原型寻找，原型Dog对象上，有bark方法，调用bark方法。</p>
-<p>其实这里也就涉及到了JavaScript高级中一个重要的概念——原型链</p>
-<p>对象 -&gt; 原型 -&gt; 原型的原型 -&gt; Object -&gt; null ,这样的一条链，称为原型链<br>对象的属性和方法，就是沿着原型链来查找和调用的，也就是js的原型继承</p>
-<p>通过原型关键字”prototype“实现js继承是最常用的方法，但是原型继承时，发生的改变会影响下游的所有子类</p>
+		<h2 id="my_blog">my blog</h2><p>welcome to liying’s blog</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -146,7 +112,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/前端/">前端</a>
+  <span></span> <a href="/tags/js/">js</a>
   </div>
 
 </div>
@@ -155,7 +121,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://hiliying.com/2015/03/25/javascript继承/" data-title="javascript继承 | liying" data-tsina="null" class="share clearfix">
+	  <div data-url="http://hiliying.com/2015/03/30/myblog/" data-title="myblog | liying" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -168,19 +134,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/03/25/javascript闭包/" title="javascript闭包">
-  <strong>上一篇：</strong><br/>
-  <span>
-  javascript闭包</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/03/25/IE调试模式下显示正确/"  title="IE下开调试模式才显示正常是什么原因？">
+<a href="/2015/03/30/重识cookie/"  title="重识cookie">
  <strong>下一篇：</strong><br/> 
- <span>IE下开调试模式才显示正常是什么原因？
+ <span>重识cookie
 </span>
 </a>
 </div>
@@ -189,7 +147,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/03/25/javascript继承/" data-title="javascript继承" data-url="http://hiliying.com/2015/03/25/javascript继承/"></div>
+	<div class="ds-thread" data-thread-key="2015/03/30/myblog/" data-title="myblog" data-url="http://hiliying.com/2015/03/30/myblog/"></div>
 </section>
 
 
@@ -199,7 +157,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#my_blog"><span class="toc-number">1.</span> <span class="toc-text">my blog</span></a></li></ol>
  
   </div>
 
