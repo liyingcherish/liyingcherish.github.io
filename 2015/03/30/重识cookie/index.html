@@ -4,28 +4,34 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>javascript闭包 | liying</title>
+    <title>重识cookie | liying</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="liying">
     
 
     
-    <meta name="description" content="一、什么是闭包？js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。
-好了，先看下面的一段代码：
-12345678910function t1()&amp;#123;       var age = 20;        function t2">
+    <meta name="description" content="cookie是什么？是一小段文本信息，伴随着用户请求和页面在Web服务器和浏览器之间传递。
+为什么需要cookie？因为HTTP是无状态协议，对于一个浏览器发出的多次请求，web浏览器无法区分是不是源于同一个浏览器。所以需要额外的数据来维护会话。cookie就是这样一段随HTTP请求一起被传递的额外数据。
+cookie优点
+
+可配置到期规则 Cookie 可以在浏览器会话结束时到期，或者可以在客户">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javascript闭包">
-<meta property="og:url" content="http://hiliying.com/2015/03/25/javascript闭包/index.html">
+<meta property="og:title" content="重识cookie">
+<meta property="og:url" content="http://hiliying.com/2015/03/30/重识cookie/index.html">
 <meta property="og:site_name" content="liying">
-<meta property="og:description" content="一、什么是闭包？js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。
-好了，先看下面的一段代码：
-12345678910function t1()&amp;#123;       var age = 20;        function t2">
+<meta property="og:description" content="cookie是什么？是一小段文本信息，伴随着用户请求和页面在Web服务器和浏览器之间传递。
+为什么需要cookie？因为HTTP是无状态协议，对于一个浏览器发出的多次请求，web浏览器无法区分是不是源于同一个浏览器。所以需要额外的数据来维护会话。cookie就是这样一段随HTTP请求一起被传递的额外数据。
+cookie优点
+
+可配置到期规则 Cookie 可以在浏览器会话结束时到期，或者可以在客户">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript闭包">
-<meta name="twitter:description" content="一、什么是闭包？js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。
-好了，先看下面的一段代码：
-12345678910function t1()&amp;#123;       var age = 20;        function t2">
+<meta name="twitter:title" content="重识cookie">
+<meta name="twitter:description" content="cookie是什么？是一小段文本信息，伴随着用户请求和页面在Web服务器和浏览器之间传递。
+为什么需要cookie？因为HTTP是无状态协议，对于一个浏览器发出的多次请求，web浏览器无法区分是不是源于同一个浏览器。所以需要额外的数据来维护会话。cookie就是这样一段随HTTP请求一起被传递的额外数据。
+cookie优点
+
+可配置到期规则 Cookie 可以在浏览器会话结束时到期，或者可以在客户">
 
     
     <link rel="alternative" href="/atom.xml" title="liying" type="application/atom+xml">
@@ -84,14 +90,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/03/25/javascript闭包/" title="javascript闭包" itemprop="url">javascript闭包</a>
+      <a href="/2015/03/30/重识cookie/" title="重识cookie" itemprop="url">重识cookie</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://hiliying.com/about" title="liying" target="_blank" itemprop="author">liying</a>
 		
   <p class="article-time">
-    <time datetime="2015-03-25T03:25:06.000Z" itemprop="datePublished"> 發表於 2015-03-25</time>
+    <time datetime="2015-03-30T02:21:02.000Z" itemprop="datePublished"> 發表於 2015-03-30</time>
     
   </p>
 </header>
@@ -100,23 +106,29 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是闭包？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是闭包？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、闭包的应用"><span class="toc-number">2.</span> <span class="toc-text">二、闭包的应用</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie是什么？"><span class="toc-number">1.</span> <span class="toc-text">cookie是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要cookie？"><span class="toc-number">2.</span> <span class="toc-text">为什么需要cookie？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie优点"><span class="toc-number">3.</span> <span class="toc-text">cookie优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie缺点"><span class="toc-number">4.</span> <span class="toc-text">cookie缺点</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="一、什么是闭包？">一、什么是闭包？</h2><p>js的闭包其实不是什么难懂的高深的概念，只是有些书籍当中介绍的不够易懂或者说举得例子不太恰当，现在我们就通过简单的例子来理解“闭包”。作为程序员，也许一段针对的代码，比那些文字描述更能说明问题，用代码说话，眼见为实。</p>
-<p>好了，先看下面的一段代码：</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span><span class="params">()</span></span>&#123;  </span><br><span class="line">     <span class="keyword">var</span> age = <span class="number">20</span>;  </span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">t2</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         alert(age);  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="keyword">return</span> t2;  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">var</span> age = <span class="number">100</span>;  </span><br><span class="line"> <span class="keyword">var</span> temp = t1();  </span><br><span class="line"> temp();<span class="comment">//20</span></span><br></pre></td></tr></table></figure>
-<p>为了突出 执行效果，在t1函数外层也定义了一个age=100的变量，执行完 var temp = t1(); 后，将函数t2赋予了temp,这样temp其实就是t2函数的引用，紧接着执行temp,输出结果竟然是20，毫无疑问，变量age是在t1函数的作用域下的，你已经看到JavaScript语言与其他语言不同的地方。</p>
-<p>在大部分语言中，如java，函数t1内的局部变量会随着函数t1执行结束而销毁，但是在js中，变量age=20却被t2捕抓，即使是t1函数执行结束后，依然可以通过t2访问到age这种情况，即返回的t2函数不是孤立的，甚至把周围的变量环境，形成了一个‘封闭包’，一起返回，所以叫‘闭包’</p>
-<h2 id="二、闭包的应用">二、闭包的应用</h2><p>JavaScript既然有闭包的实现，那么JavaScript的闭包是怎么使用的或应用在哪种情况下呢？通过上面的例子已经看到，函数t1内部的age变量只能通过返回的t2函数访问，那么age是不是相当于java的private私有变量呢，哈哈，这个在下一篇会讲到，而且将通过“闭包”将属性封装在内部，做成接口，别人也就看不见，也不会污染到其他的变量，想想是不是呢。</p>
-<p>讲那么多，我们就通过一个实际的例子看看：</p>
-<p>要求：实现一个计数器，每次调用某函数，使计时器的值加1</p>
-<p>1、闭包实现</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span><span class="params">()</span></span>&#123;  </span><br><span class="line">     <span class="keyword">var</span> i = <span class="number">0</span>;<span class="comment">//但counter执行完毕后，除了返回的inc函数，其他函数访问不了变量i  </span></span><br><span class="line">     <span class="keyword">var</span> inc = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         <span class="keyword">return</span> ++i;  </span><br><span class="line">     &#125;  </span><br><span class="line">     <span class="keyword">return</span> inc;  </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">var</span> c = counter();  </span><br><span class="line"> alert(c());  </span><br><span class="line"> alert(c());  </span><br><span class="line"> alert(c());</span><br></pre></td></tr></table></figure>
-<p>2、可以结合“匿名”函数，进行简化</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = (<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">     <span class="keyword">var</span> i = <span class="number">0</span>;  </span><br><span class="line">     <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         <span class="keyword">return</span> ++i;  </span><br><span class="line">     &#125;  </span><br><span class="line"> &#125;)();  </span><br><span class="line"> alert(counter());  </span><br><span class="line"> alert(counter());  </span><br><span class="line"> alert(counter());</span><br></pre></td></tr></table></figure>
-<p>相信你已经看到了闭包的好处，但是请不到胡乱使用闭包，因为在IE浏览器下是使用“计数”的方式跟踪对象来进行垃圾回收的，由于闭包的特新，不会释放局部变量，如果造成过多的循环引用，将会引起“内存泄露”。</p>
+		<h2 id="cookie是什么？">cookie是什么？</h2><p>是一小段文本信息，伴随着用户请求和页面在Web服务器和浏览器之间传递。</p>
+<h2 id="为什么需要cookie？">为什么需要cookie？</h2><p>因为HTTP是无状态协议，对于一个浏览器发出的多次请求，web浏览器无法区分是不是源于同一个浏览器。所以需要额外的数据来维护会话。cookie就是这样一段随HTTP请求一起被传递的额外数据。</p>
+<h2 id="cookie优点">cookie优点</h2><blockquote>
+<ul>
+<li>可配置到期规则 Cookie 可以在浏览器会话结束时到期，或者可以在客户端计算机上无限期存在，这取决于客户端的到期规则。</li>
+<li>不需要任何服务器资源 cookie存储在客户端并在发送后由服务器读取</li>
+<li>简单性 cookie是一种基于文本的清凉结构，包含简单的键值对</li>
+<li>数据持久性 虽然客户端计算机上cookie的持续时间取决于客户端上的cookie过期处理和用户干预，cookie通常是客户端上持续时间最长的数据保留形式</li>
+</ul>
+</blockquote>
+<h2 id="cookie缺点">cookie缺点</h2><blockquote>
+<ul>
+<li>大小受限制</li>
+<li>用户配置为禁用 有些用户禁用了浏览器或客户端设备接收 Cookie 的能力，因此限制了这一功能</li>
+<li>潜在的安全风险，cookie可能会被篡改。</li>
+</ul>
+</blockquote>
+<hr>
+<p>接下来会记录一些更好的jS封装方式。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -124,13 +136,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/前端/">前端</a>
+  <a class="article-category-link" href="/categories/浏览器/">浏览器</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/前端/">前端</a>
+  <span></span> <a href="/tags/浏览器/">浏览器</a>
   </div>
 
 </div>
@@ -139,7 +151,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://hiliying.com/2015/03/25/javascript闭包/" data-title="javascript闭包 | liying" data-tsina="null" class="share clearfix">
+	  <div data-url="http://hiliying.com/2015/03/30/重识cookie/" data-title="重识cookie | liying" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -152,19 +164,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/03/28/JavaScript变量作用域/" title="javascript作用域问题">
-  <strong>上一篇：</strong><br/>
-  <span>
-  javascript作用域问题</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/03/25/javascript继承/"  title="javascript继承">
+<a href="/2015/03/30/setTimeout/"  title="setTimeout">
  <strong>下一篇：</strong><br/> 
- <span>javascript继承
+ <span>setTimeout
 </span>
 </a>
 </div>
@@ -173,7 +177,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/03/25/javascript闭包/" data-title="javascript闭包" data-url="http://hiliying.com/2015/03/25/javascript闭包/"></div>
+	<div class="ds-thread" data-thread-key="2015/03/30/重识cookie/" data-title="重识cookie" data-url="http://hiliying.com/2015/03/30/重识cookie/"></div>
 </section>
 
 
@@ -183,7 +187,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是闭包？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是闭包？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、闭包的应用"><span class="toc-number">2.</span> <span class="toc-text">二、闭包的应用</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie是什么？"><span class="toc-number">1.</span> <span class="toc-text">cookie是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要cookie？"><span class="toc-number">2.</span> <span class="toc-text">为什么需要cookie？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie优点"><span class="toc-number">3.</span> <span class="toc-text">cookie优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie缺点"><span class="toc-number">4.</span> <span class="toc-text">cookie缺点</span></a></li></ol>
  
   </div>
 
